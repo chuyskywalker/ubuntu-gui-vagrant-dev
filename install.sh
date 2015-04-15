@@ -30,8 +30,8 @@ autologin-user=vagrant
 " > /etc/lightdm/lightdm.conf.d/50-myconfig.conf
 
 echo '--- Disable Screen Saver'
-dconf write /org/gnome/desktop/screensaver/idle-activation-enabled false
-dconf write /org/gnome/desktop/screensaver/lock-enabled false
+sudo -u vagrant dconf write /org/gnome/desktop/screensaver/idle-activation-enabled false
+sudo -u vagrant dconf write /org/gnome/desktop/screensaver/lock-enabled false
 
 echo '--- Install ssh keys'
 cp /vagrant/ssh/*key /home/vagrant/.ssh/
@@ -42,10 +42,13 @@ chmod -R vagrant.vagrant ~/.ssh
 
 echo '--- Clone Git Repos In'
 mkdir /home/vagrant/gits
+chown vagrant.vagrant /home/vagrant/gits
 cd    /home/vagrant/gits
-git clone git@bitbucket.org:chuyskywalker/jrm.cc.git
-git clone git@github.com:chuyskywalker/poop-chart.git
-# todo: add more here
+sudo -u vagrant git clone git@bitbucket.org:chuyskywalker/jrm.cc.git
+sudo -u vagrant git clone git@github.com:chuyskywalker/poop-chart.git
+sudo -u vagrant git config --global user.email "jeff@jrm.cc"
+sudo -u vagrant git config --global user.name 'Jeff Minard'
+sudo -u vagrant git config --global push.default simple
 
 echo "Oddly, one must reboot now..."
 reboot now
